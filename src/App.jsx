@@ -354,7 +354,7 @@ function ProfilCompletion({ user, onComplete, onSkip }) {
   const steps = [
     { key: "volume",   label: "Volume",   icon: "📊", done: !!form.volume },
     { key: "jours",    label: "Jours",    icon: "📅", done: Object.values(form.joursDispo||{}).some(Boolean) },
-    { key: "sante",    label: "Santé",    icon: "🏥", done: (form.blessures || []).length > 0 },
+    { key: "sante",    label: "Totem", icon: "🐾", done: (form.blessures || []).length > 0 },
     { key: "perf",     label: "Perfs",    icon: "⚡", done: !!(form.fcMax || form.vma) },
   ];
   const pct = 40 + Math.round((steps.filter(s => s.done).length / steps.length) * 60);
@@ -1338,7 +1338,7 @@ function Register({ onSuccess, onLogin, onBack }) {
             </div>
             <div style={{ background: "#e0d8c4", borderRadius: 10, padding: "10px 14px", fontSize: 13, color: C.creamDim, marginTop: 8 }}>ℹ️ Démo — Stripe activé à la mise en ligne.</div>
           </CL>
-          <Btn full onClick={pay} disabled={loading} style={{ fontSize: 16, padding: 17 }}>{loading ? "Activation…" : promo === "ANNUEL" ? "Commander l'offre annuelle →" : "Commander avec essai gratuit →"}</Btn>
+          <Btn full onClick={pay} disabled={loading} style={{ fontSize: 16, padding: 17 }}>{loading ? "Activation…" : promo === "ANNUEL" ? "Commander l'offre annuelle →" : "Commencer mon programme →"}</Btn>
           <p style={{ textAlign: "center", color: C.creamDim, fontSize: 12, marginTop: 10 }}>🔒 Paiement sécurisé · {promo === "ANNUEL" ? "129,99€/an · 2 mois offerts" : "7 jours gratuits · Sans engagement"}</p>
         </div>}
       </div>
@@ -1734,7 +1734,7 @@ function Dashboard({ user: initUser, onLogout }) {
                   <div style={{ display: "flex", gap: 8 }}>
                     <span style={{ background: "rgba(68,204,136,0.15)", color: "#44CC88", fontSize: 11, fontWeight: 600, padding: "3px 10px", borderRadius: 50 }}>✓ FINISHER</span>
                   </div>
-                  <button onClick={() => setShowShare({ type: "sticker", data: { nomCourse: obj.nom, pct: 100, jours: 0 } })}
+                  <button onClick={() => setShowShare({ type: "sticker", data: { nomCourse: obj.nomCourse || obj.nom || "MA COURSE", pct: 100, jours: 0 } })}
                     style={{ width: "100%", marginTop: 10, background: `${C.yellow}10`, border: `1px solid ${C.yellow}35`, borderRadius: 10, padding: "8px", color: C.yellow, fontSize: 12, cursor: "pointer", fontFamily: F.title, fontWeight: 700 }}>
                     📤 Partager ma carte
                   </button>
