@@ -136,7 +136,7 @@ const Chip = ({ label, selected, onClick }) => <div onClick={onClick} style={{ p
 
 const Sheet = ({ children, onClose, title }) => (
   <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,.6)", zIndex: 300, display: "flex", alignItems: "flex-end" }} onClick={e => e.target === e.currentTarget && onClose()}>
-    <div style={{ background: C.bg, width: "100%", maxHeight: "92vh", overflowY: "auto", borderRadius: "24px 24px 0 0", animation: "slideUp .3s ease", paddingBottom: "calc(40px + env(safe-area-inset-bottom, 0px))" }}>
+    <div style={{ background: C.bg, width: "100%", maxHeight: "92vh", overflowY: "auto", borderRadius: "24px 24px 0 0", animation: "slideUp .3s ease", paddingBottom: 40 }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "20px 20px 16px", borderBottom: `1px solid ${C.borderLight}`, position: "sticky", top: 0, background: C.bg, zIndex: 1 }}>
         {title && <div style={{ fontFamily: F.title, fontSize: 15, fontWeight: 700, letterSpacing: "0.04em" }}>{title}</div>}
         <button onClick={onClose} style={{ background: "none", border: "none", fontSize: 28, cursor: "pointer", color: C.creamDim, marginLeft: "auto", lineHeight: 1, padding: "0 4px", minHeight: 44 }}>×</button>
@@ -202,7 +202,7 @@ function ShareCard({ type, data, onClose }) {
       ctx.textAlign = "right"; ctx.fillText("BECOMING FINISHER", x + w - 26, y + 52); ctx.textAlign = "left";
       // Nom course
       ctx.fillStyle = "#ffffff"; ctx.font = `700 50px 'Trebuchet MS',sans-serif`;
-      const name = (data.nomCourse || data.nom || "MA COURSE").toUpperCase();
+      const name = (data.nom || "MA COURSE").toUpperCase();
       if (name.length > 18) {
         const words = name.split(" "); const mid = Math.ceil(words.length / 2);
         ctx.fillText(words.slice(0, mid).join(" "), x + 26, y + 125);
@@ -246,7 +246,7 @@ function ShareCard({ type, data, onClose }) {
       ctx.fillStyle = "rgba(212,255,0,0.3)"; ctx.fillRect(W / 2 - 60, 545, 120, 2);
       // Nom course
       ctx.fillStyle = "#f5f0e4"; ctx.font = `700 52px 'Trebuchet MS',sans-serif`;
-      ctx.fillText((data.nomCourse || data.nom || "MA COURSE").toUpperCase(), W / 2, 618);
+      ctx.fillText((data.nom || "MA COURSE").toUpperCase(), W / 2, 618);
       // Stats
       const statsY = 720;
       const stats = [];
@@ -354,14 +354,14 @@ function ProfilCompletion({ user, onComplete, onSkip }) {
   const steps = [
     { key: "volume",   label: "Volume",   icon: "📊", done: !!form.volume },
     { key: "jours",    label: "Jours",    icon: "📅", done: Object.values(form.joursDispo||{}).some(Boolean) },
-    { key: "sante",    label: "Totem", icon: "🐾", done: !!form.animalTotem },
+    { key: "sante",    label: "Santé",    icon: "🏥", done: (form.blessures || []).length > 0 },
     { key: "perf",     label: "Perfs",    icon: "⚡", done: !!(form.fcMax || form.vma) },
   ];
   const pct = 40 + Math.round((steps.filter(s => s.done).length / steps.length) * 60);
 
   return (
     <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,.8)", zIndex: 400, display: "flex", alignItems: "flex-end", justifyContent: "center" }}>
-      <div style={{ background: C.bg, width: "100%", maxWidth: 520, maxHeight: "92vh", overflowY: "auto", borderRadius: "24px 24px 0 0", padding: "24px 20px 0", paddingBottom: "calc(40px + env(safe-area-inset-bottom, 0px))", animation: "slideUp .35s ease" }}>
+      <div style={{ background: C.bg, width: "100%", maxWidth: 520, maxHeight: "92vh", overflowY: "auto", borderRadius: "24px 24px 0 0", padding: "24px 20px 40px", animation: "slideUp .35s ease" }}>
         <div style={{ marginBottom: 24 }}>
           <div style={{ fontFamily: F.title, fontSize: 18, fontWeight: 700, letterSpacing: "0.04em", marginBottom: 6, color: C.black }}>TON COACH A BESOIN D'EN SAVOIR PLUS</div>
           <p style={{ color: C.creamDim, fontSize: 14, marginBottom: 16, lineHeight: 1.6, color: "#555" }}>2 minutes pour calibrer chaque séance à la perfection.</p>
@@ -1338,7 +1338,7 @@ function Register({ onSuccess, onLogin, onBack }) {
             </div>
             <div style={{ background: "#e0d8c4", borderRadius: 10, padding: "10px 14px", fontSize: 13, color: C.creamDim, marginTop: 8 }}>ℹ️ Démo — Stripe activé à la mise en ligne.</div>
           </CL>
-          <Btn full onClick={pay} disabled={loading} style={{ fontSize: 16, padding: 17 }}>{loading ? "Activation…" : promo === "ANNUEL" ? "Commander l'offre annuelle →" : "Commencer mon programme →"}</Btn>
+          <Btn full onClick={pay} disabled={loading} style={{ fontSize: 16, padding: 17 }}>{loading ? "Activation…" : promo === "ANNUEL" ? "Commander l'offre annuelle →" : "Commander avec essai gratuit →"}</Btn>
           <p style={{ textAlign: "center", color: C.creamDim, fontSize: 12, marginTop: 10 }}>🔒 Paiement sécurisé · {promo === "ANNUEL" ? "129,99€/an · 2 mois offerts" : "7 jours gratuits · Sans engagement"}</p>
         </div>}
       </div>
@@ -1489,7 +1489,7 @@ function Dashboard({ user: initUser, onLogout }) {
   const navItems = [{ id: "home", icon: "⌂", label: "Accueil" }, { id: "programme", icon: "📋", label: "Programme" }, { id: "coach", icon: "💬", label: "Coach" }, { id: "profil", icon: "👤", label: "Profil" }];
 
   return (
-    <div style={{ background: C.bg, minHeight: "100dvh", fontFamily: F.body, color: C.black, paddingBottom: "calc(80px + env(safe-area-inset-bottom, 0px))" }}>
+    <div style={{ background: C.bg, minHeight: "100dvh", fontFamily: F.body, color: C.black, paddingBottom: 80 }}>
       <style>{`
         @keyframes fadeIn{from{opacity:0}to{opacity:1}}
         @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
@@ -1511,13 +1511,13 @@ function Dashboard({ user: initUser, onLogout }) {
       {showShare && <ShareCard type={showShare.type} data={showShare.data} onClose={() => setShowShare(null)} />}
 
       {/* TOP NAV */}
-      <div style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, background: "rgba(240,234,214,.97)", backdropFilter: "blur(12px)", borderBottom: `1px solid ${C.borderLight}`, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 18px", paddingTop: "env(safe-area-inset-top, 0px)", minHeight: "calc(52px + env(safe-area-inset-top, 0px))" }}>
+      <div style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, background: "rgba(240,234,214,.97)", backdropFilter: "blur(12px)", borderBottom: `1px solid ${C.borderLight}`, height: 52, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 18px" }}>
         <div style={{ fontFamily: F.title, fontSize: 15, fontWeight: 700, letterSpacing: "0.1em" }}>FOCUS <span style={{ background: C.yellow, padding: "1px 4px", borderRadius: 3 }}>RUN</span></div>
         {activeObj && tab === "programme" && <div style={{ fontFamily: F.title, fontSize: 11, fontWeight: 700, letterSpacing: "0.06em", color: C.creamDim, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: 160 }}>{(activeObj.nom||'').toUpperCase()}</div>}
         <Btn variant="ghost" small onClick={onLogout} style={{ fontSize: 13, padding: "8px 0" }}>Déco.</Btn>
       </div>
 
-      <div style={{ maxWidth: 520, margin: "0 auto", padding: "0 16px 20px", paddingTop: "calc(62px + env(safe-area-inset-top, 0px))" }}>
+      <div style={{ maxWidth: 520, margin: "0 auto", padding: "62px 16px 20px" }}>
 
         {/* ── HOME ── */}
         {tab === "home" && <div style={{ animation: "fadeIn .3s ease" }}>
@@ -2186,7 +2186,7 @@ function Dashboard({ user: initUser, onLogout }) {
       </div>
 
       {/* BOTTOM TAB BAR */}
-      <div style={{ position: "fixed", bottom: 0, left: 0, right: 0, background: "rgba(240,234,214,.97)", backdropFilter: "blur(12px)", borderTop: `1px solid ${C.borderLight}`, display: "flex", zIndex: 100, paddingBottom: "env(safe-area-inset-bottom, 0px)" }}>
+      <div style={{ position: "fixed", bottom: 0, left: 0, right: 0, background: "rgba(240,234,214,.97)", backdropFilter: "blur(12px)", borderTop: `1px solid ${C.borderLight}`, display: "flex", zIndex: 100 }}>
         {navItems.map(n => (
           <button key={n.id} onClick={() => setTab(n.id)} style={{ flex: 1, background: "transparent", border: "none", cursor: "pointer", padding: "10px 0 8px", display: "flex", flexDirection: "column", alignItems: "center", gap: 3, WebkitTapHighlightColor: "transparent", minHeight: 60 }}>
             <div style={{ fontSize: 20, lineHeight: 1 }}>{n.icon}</div>
