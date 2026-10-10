@@ -354,7 +354,7 @@ function ProfilCompletion({ user, onComplete, onSkip }) {
   const steps = [
     { key: "volume",   label: "Volume",   icon: "📊", done: !!form.volume },
     { key: "jours",    label: "Jours",    icon: "📅", done: Object.values(form.joursDispo||{}).some(Boolean) },
-    { key: "sante",    label: "Santé",    icon: "🏥", done: (form.blessures || []).length > 0 },
+    { key: "sante",    label: "Totem", icon: "🐾", done: !!form.animalTotem },
     { key: "perf",     label: "Perfs",    icon: "⚡", done: !!(form.fcMax || form.vma) },
   ];
   const pct = 40 + Math.round((steps.filter(s => s.done).length / steps.length) * 60);
