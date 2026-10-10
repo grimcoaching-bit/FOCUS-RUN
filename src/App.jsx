@@ -136,7 +136,7 @@ const Chip = ({ label, selected, onClick }) => <div onClick={onClick} style={{ p
 
 const Sheet = ({ children, onClose, title }) => (
   <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,.6)", zIndex: 300, display: "flex", alignItems: "flex-end" }} onClick={e => e.target === e.currentTarget && onClose()}>
-    <div style={{ background: C.bg, width: "100%", maxHeight: "92vh", overflowY: "auto", borderRadius: "24px 24px 0 0", animation: "slideUp .3s ease", paddingBottom: 40 }}>
+    <div style={{ background: C.bg, width: "100%", maxHeight: "92vh", overflowY: "auto", borderRadius: "24px 24px 0 0", animation: "slideUp .3s ease", paddingBottom: "calc(40px + env(safe-area-inset-bottom, 0px))" }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "20px 20px 16px", borderBottom: `1px solid ${C.borderLight}`, position: "sticky", top: 0, background: C.bg, zIndex: 1 }}>
         {title && <div style={{ fontFamily: F.title, fontSize: 15, fontWeight: 700, letterSpacing: "0.04em" }}>{title}</div>}
         <button onClick={onClose} style={{ background: "none", border: "none", fontSize: 28, cursor: "pointer", color: C.creamDim, marginLeft: "auto", lineHeight: 1, padding: "0 4px", minHeight: 44 }}>×</button>
@@ -361,7 +361,7 @@ function ProfilCompletion({ user, onComplete, onSkip }) {
 
   return (
     <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,.8)", zIndex: 400, display: "flex", alignItems: "flex-end", justifyContent: "center" }}>
-      <div style={{ background: C.bg, width: "100%", maxWidth: 520, maxHeight: "92vh", overflowY: "auto", borderRadius: "24px 24px 0 0", padding: "24px 20px 40px", animation: "slideUp .35s ease" }}>
+      <div style={{ background: C.bg, width: "100%", maxWidth: 520, maxHeight: "92vh", overflowY: "auto", borderRadius: "24px 24px 0 0", padding: "24px 20px 0", paddingBottom: "calc(40px + env(safe-area-inset-bottom, 0px))", animation: "slideUp .35s ease" }}>
         <div style={{ marginBottom: 24 }}>
           <div style={{ fontFamily: F.title, fontSize: 18, fontWeight: 700, letterSpacing: "0.04em", marginBottom: 6, color: C.black }}>TON COACH A BESOIN D'EN SAVOIR PLUS</div>
           <p style={{ color: C.creamDim, fontSize: 14, marginBottom: 16, lineHeight: 1.6, color: "#555" }}>2 minutes pour calibrer chaque séance à la perfection.</p>
@@ -1489,7 +1489,7 @@ function Dashboard({ user: initUser, onLogout }) {
   const navItems = [{ id: "home", icon: "⌂", label: "Accueil" }, { id: "programme", icon: "📋", label: "Programme" }, { id: "coach", icon: "💬", label: "Coach" }, { id: "profil", icon: "👤", label: "Profil" }];
 
   return (
-    <div style={{ background: C.bg, minHeight: "100dvh", fontFamily: F.body, color: C.black, paddingBottom: 80 }}>
+    <div style={{ background: C.bg, minHeight: "100dvh", fontFamily: F.body, color: C.black, paddingBottom: "calc(80px + env(safe-area-inset-bottom, 0px))" }}>
       <style>{`
         @keyframes fadeIn{from{opacity:0}to{opacity:1}}
         @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
@@ -1511,13 +1511,13 @@ function Dashboard({ user: initUser, onLogout }) {
       {showShare && <ShareCard type={showShare.type} data={showShare.data} onClose={() => setShowShare(null)} />}
 
       {/* TOP NAV */}
-      <div style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, background: "rgba(240,234,214,.97)", backdropFilter: "blur(12px)", borderBottom: `1px solid ${C.borderLight}`, height: 52, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 18px" }}>
+      <div style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, background: "rgba(240,234,214,.97)", backdropFilter: "blur(12px)", borderBottom: `1px solid ${C.borderLight}`, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 18px", paddingTop: "env(safe-area-inset-top, 0px)", minHeight: "calc(52px + env(safe-area-inset-top, 0px))" }}>
         <div style={{ fontFamily: F.title, fontSize: 15, fontWeight: 700, letterSpacing: "0.1em" }}>FOCUS <span style={{ background: C.yellow, padding: "1px 4px", borderRadius: 3 }}>RUN</span></div>
         {activeObj && tab === "programme" && <div style={{ fontFamily: F.title, fontSize: 11, fontWeight: 700, letterSpacing: "0.06em", color: C.creamDim, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: 160 }}>{(activeObj.nom||'').toUpperCase()}</div>}
         <Btn variant="ghost" small onClick={onLogout} style={{ fontSize: 13, padding: "8px 0" }}>Déco.</Btn>
       </div>
 
-      <div style={{ maxWidth: 520, margin: "0 auto", padding: "62px 16px 20px" }}>
+      <div style={{ maxWidth: 520, margin: "0 auto", padding: "0 16px 20px", paddingTop: "calc(62px + env(safe-area-inset-top, 0px))" }}>
 
         {/* ── HOME ── */}
         {tab === "home" && <div style={{ animation: "fadeIn .3s ease" }}>
@@ -2186,7 +2186,7 @@ function Dashboard({ user: initUser, onLogout }) {
       </div>
 
       {/* BOTTOM TAB BAR */}
-      <div style={{ position: "fixed", bottom: 0, left: 0, right: 0, background: "rgba(240,234,214,.97)", backdropFilter: "blur(12px)", borderTop: `1px solid ${C.borderLight}`, display: "flex", zIndex: 100 }}>
+      <div style={{ position: "fixed", bottom: 0, left: 0, right: 0, background: "rgba(240,234,214,.97)", backdropFilter: "blur(12px)", borderTop: `1px solid ${C.borderLight}`, display: "flex", zIndex: 100, paddingBottom: "env(safe-area-inset-bottom, 0px)" }}>
         {navItems.map(n => (
           <button key={n.id} onClick={() => setTab(n.id)} style={{ flex: 1, background: "transparent", border: "none", cursor: "pointer", padding: "10px 0 8px", display: "flex", flexDirection: "column", alignItems: "center", gap: 3, WebkitTapHighlightColor: "transparent", minHeight: 60 }}>
             <div style={{ fontSize: 20, lineHeight: 1 }}>{n.icon}</div>
