@@ -202,7 +202,7 @@ function ShareCard({ type, data, onClose }) {
       ctx.textAlign = "right"; ctx.fillText("BECOMING FINISHER", x + w - 26, y + 52); ctx.textAlign = "left";
       // Nom course
       ctx.fillStyle = "#ffffff"; ctx.font = `700 50px 'Trebuchet MS',sans-serif`;
-      const name = (data.nom || "MA COURSE").toUpperCase();
+      const name = (data.nomCourse || data.nom || "MA COURSE").toUpperCase();
       if (name.length > 18) {
         const words = name.split(" "); const mid = Math.ceil(words.length / 2);
         ctx.fillText(words.slice(0, mid).join(" "), x + 26, y + 125);
@@ -246,7 +246,7 @@ function ShareCard({ type, data, onClose }) {
       ctx.fillStyle = "rgba(212,255,0,0.3)"; ctx.fillRect(W / 2 - 60, 545, 120, 2);
       // Nom course
       ctx.fillStyle = "#f5f0e4"; ctx.font = `700 52px 'Trebuchet MS',sans-serif`;
-      ctx.fillText((data.nom || "MA COURSE").toUpperCase(), W / 2, 618);
+      ctx.fillText((data.nomCourse || data.nom || "MA COURSE").toUpperCase(), W / 2, 618);
       // Stats
       const statsY = 720;
       const stats = [];
@@ -1338,7 +1338,7 @@ function Register({ onSuccess, onLogin, onBack }) {
             </div>
             <div style={{ background: "#e0d8c4", borderRadius: 10, padding: "10px 14px", fontSize: 13, color: C.creamDim, marginTop: 8 }}>ℹ️ Démo — Stripe activé à la mise en ligne.</div>
           </CL>
-          <Btn full onClick={pay} disabled={loading} style={{ fontSize: 16, padding: 17 }}>{loading ? "Activation…" : promo === "ANNUEL" ? "Commander l'offre annuelle →" : "Commander avec essai gratuit →"}</Btn>
+          <Btn full onClick={pay} disabled={loading} style={{ fontSize: 16, padding: 17 }}>{loading ? "Activation…" : promo === "ANNUEL" ? "Commander l'offre annuelle →" : "Commencer mon programme →"}</Btn>
           <p style={{ textAlign: "center", color: C.creamDim, fontSize: 12, marginTop: 10 }}>🔒 Paiement sécurisé · {promo === "ANNUEL" ? "129,99€/an · 2 mois offerts" : "7 jours gratuits · Sans engagement"}</p>
         </div>}
       </div>
