@@ -1836,7 +1836,7 @@ function Dashboard({ user: initUser, onLogout }) {
                             <div style={{ fontFamily: F.title, fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", color: C.creamDim, marginBottom: 4 }}>RÉCAP SEMAINE</div>
                             <div style={{ fontFamily: F.title, fontSize: 26, fontWeight: 700, color: C.cream }}>{faites + modifiees}<span style={{ fontSize: 14, color: C.creamDim, fontFamily: F.body, fontWeight: 400 }}>/{total} séances</span></div>
                           </div>
-                          <button onClick={() => setShowShare({ type: "sticker", data: { nomCourse: activeObj.nomCourse || activeObj.nom || "MA COURSE", pct: Math.round(((activeObj.week||1) / (activeObj.totalWeeks||13)) * 100), jours: (weeksToRace || 0) * 7 } })}
+                          <button onClick={() => setShowShare({ type: "sticker", data: { nomCourse: activeObj.nom_course || activeObj.nom || "MA COURSE", pct: Math.round(((activeObj.week||1) / (activeObj.totalWeeks||13)) * 100), jours: (weeksToRace || 0) * 7 } })}
                             style={{ background: `${C.yellow}20`, border: `1px solid ${C.yellow}40`, borderRadius: 12, padding: "8px 14px", color: C.yellow, fontFamily: F.body, fontWeight: 700, fontSize: 13, cursor: "pointer", flexShrink: 0 }}>📤 Partager</button>
                         </div>
                         <div style={{ display: "flex", gap: 8, marginBottom: 12 }}>
@@ -2219,7 +2219,7 @@ function Dashboard({ user: initUser, onLogout }) {
           <Btn full onClick={() => {
             const idx = objectifs.findIndex(o => o.id === showJourJ.id);
             if (idx >= 0) { saveObj(objectifs.map((o, i) => i === idx ? { ...o, archived: true, tempsFinisher: finisherData.temps } : o)); }
-            setShowShare({ type: "finisher", data: { nomCourse: showJourJ.nomCourse || showJourJ.nom || "MA COURSE", distance: showJourJ.distanceCourseKm ? `${showJourJ.distanceCourseKm}km` : showJourJ.distanceCourse || "", denivele: showJourJ["deniveléCourse"] && showJourJ["deniveléCourse"] !== "0" ? `D+${showJourJ["deniveléCourse"]}m` : null, temps: finisherData.temps, semaines: showJourJ.week || 0 } });
+            setShowShare({ type: "finisher", data: { nomCourse: showJourJ.nom_course || showJourJ.nom || "MA COURSE", distance: showJourJ.distanceCourseKm ? `${showJourJ.distanceCourseKm}km` : showJourJ.distanceCourse || "", denivele: showJourJ["deniveléCourse"] && showJourJ["deniveléCourse"] !== "0" ? `D+${showJourJ["deniveléCourse"]}m` : null, temps: finisherData.temps, semaines: showJourJ.week || 0 } });
             setShowJourJ(null); setToast({ msg: "🏅 Tu es Finisher !", type: "celebrate" });
           }} style={{ minHeight: 52 }}>Créer ma card Finisher →</Btn>
         </Sheet>
