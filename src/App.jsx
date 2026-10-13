@@ -1,4 +1,6 @@
 import { useState, useEffect, useRef } from "react";
+import { createClient } from "@supabase/supabase-js";
+const supabase = createClient("https://psuyixizpuurieaoiiow.supabase.co","eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBzdXlpeGl6cHV1cmllYW9paW93Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE2Mjk4MDEsImV4cCI6MjEwNzIwNTgwMX0.R-Xcmjz6ngvkAjYhqK_RlGmZtT7GwAv_c9RgHhP47ME");
 
 const C = {
   black: "#0d0d0d", card: "#1a1a1a", border: "#2a2a2a", borderLight: "#ddd5c0",
@@ -975,7 +977,7 @@ function Login({ onSuccess, onRegister, onBack }) {
   const submit = () => {
     setErr(""); if (!email || !pass) { setErr("Remplis tous les champs."); return; }
     setLoading(true);
-    setTimeout(() => { const u = mockDB.users[email.toLowerCase()]; if (!u || u.password !== pass) { setErr("Email ou mot de passe incorrect."); setLoading(false); return; } onSuccess(u); }, 700);
+    supabase.auth.signInWithPassword({email:email.toLowerCase(),password:pass}).then(({data,error})=>{if(error){setErr("Email ou mot de passe incorrect.");setLoading(false);return;}supabase.from("users").select("*").eq("user_id",data.user.id).single().then(({data:p})=>{onSuccess({...p,email:data.user.email,id:data.user.id});});});
   };
   return (
     <div style={{ background: C.bg, minHeight: "100dvh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: 20 }}>
@@ -1046,7 +1048,7 @@ function Register({ onSuccess, onLogin, onBack }) {
     if (!/\S+@\S+\.\S+/.test(form.email)) return "Email invalide.";
     if (form.pass.length < 6) return "Mot de passe trop court (6 caractères min).";
     if (form.pass !== form.passConfirm) return "Mots de passe différents.";
-    if (mockDB.users[form.email.toLowerCase()]) return "Email déjà utilisé.";
+    
     if (!form.cguAccepted) return "Tu dois accepter les CGU pour continuer.";
     if (!form.santeConsentement) return "Tu dois accepter le traitement de tes données de santé.";
     return "";
@@ -1079,7 +1081,7 @@ function Register({ onSuccess, onLogin, onBack }) {
       const parsed = preview ? parseProgramme(preview) : { days: [] };
       const firstObj = objectif ? { ...objectif, programme: null, week: 0, id: Date.now(), days: [], weekHistory: [], archived: false, joursDispo: form.joursDispo || {} } : null;
       const u = { ...form, email: form.email.toLowerCase(), password: form.pass, abonnement: true, objectifs: firstObj ? [firstObj] : [], firstLogin: true, needsProfileCompletion: true };
-      mockDB.users[u.email] = u; onSuccess(u);
+      onSuccess(u);
     }, 1200);
   };
 
