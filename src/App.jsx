@@ -1075,14 +1075,27 @@ function Register({ onSuccess, onLogin, onBack }) {
     if (step === 3) { setStep(4); return; }
   };
 
-  const pay = () => {
+  const pay = async () => {
     setLoading(true);
-    setTimeout(() => {
-      const parsed = preview ? parseProgramme(preview) : { days: [] };
-      const firstObj = objectif ? { ...objectif, programme: null, week: 0, id: Date.now(), days: [], weekHistory: [], archived: false, joursDispo: form.joursDispo || {} } : null;
-      const u = { ...form, email: form.email.toLowerCase(), password: form.pass, abonnement: true, objectifs: firstObj ? [firstObj] : [], firstLogin: true, needsProfileCompletion: true };
-      onSuccess(u);
-    }, 1200);
+    const { data: authData, error: authError } = await supabase.auth.signUp({
+      email: form.email.toLowerCase(),
+      password: form.pass,
+    });
+    if (authError) {
+      if (authError.message.includes("already registered")) setErr("Email deja utilise.");
+      else setErr(authError.message);
+      setLoading(false); return;
+    }
+    await new Promise(r => setTimeout(r, 1000));
+    await supabase.from("users").update({
+      prenom: form.prenom || "",
+      age: String(form.age || ""),
+      poids: String(form.poids || ""),
+      taille: String(form.taille || ""),
+      type: form.type || "",
+    }).eq("user_id", authData.user.id);
+    const u = { ...form, email: form.email.toLowerCase(), abonnement: true, firstLogin: true, needsProfileCompletion: true, id: authData.user.id };
+    onSuccess(u);
   };
 
   const Opt = ({ icon, label, sub, field, value }) => {
